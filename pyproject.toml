@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry]
 name = "expressdate"
 version = "0.0.1"
-description = ""
+description = "Express-fast and flexible to express dates."
 authors = ["DuelitDev <jyoon07dev@gmail.com>"]
 readme = "README.md"
 
