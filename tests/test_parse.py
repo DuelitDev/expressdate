@@ -1,7 +1,7 @@
 import pytest
 from datetime import date
 from zoneinfo import ZoneInfo
-from src.expressdate.parse import Parser
+from expressdate.parse import Parser
 
 
 def test_convert_to_cjk_conversion():
