@@ -6,7 +6,7 @@ on:
 
 jobs:
   test:
-    name: Run tests and collect coverage
+    name: CI
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
