@@ -1,0 +1,45 @@
+<input> ::= <date_range> | <expr_date>
+
+<date_range> ::= <const_date> "~" <const_date>
+               | <const_date> "~"
+
+<expr_date> ::= <expr_MMDDYYYY> | <expr_YYYYMMDD> | <relative>
+
+<relative>        ::= <relative_string> | <relative_digit>
+<relative_string> ::= "today" | "yesterday" | "tommorow"
+<relative_digit>  ::= ("+" | "-") <digit>
+
+<expr_MMDDYYYY> ::= <expr_month> "-" <expr_day> "-" <expr_year>
+                  | <expr_month> "-" <expr_day> "-" <expr_year> "," <expr_week>
+<expr_YYYYMMDD> ::= <expr_year> "-" <expr_month> "-" <expr_day>
+                  | <expr_year> "-" <expr_month> "-" <expr_day> "," <expr_week>
+
+<expr_year>  ::= <digit_pattern> <digit_pattern> <digit_pattern> <digit_pattern>
+<expr_month> ::= "0" <digit1_pattern>
+               | "1" ("0" | "1" | "2" | "*")
+               | "*" <digit_pattern>
+<expr_day>   ::= "0" <digit1_pattern>
+               | "1" <digit_pattern>
+               | "2" <digit_pattern>
+               | "3" ("0" | "1" | "*")
+               | "*" <digit_pattern>
+<expr_week>  ::= ("M" | "m") ("O" | "o") ("N" | "n")  // Monday
+               | ("T" | "t") ("U" | "u") ("E" | "e")  // Tuesday
+               | ("W" | "w") ("E" | "e") ("D" | "d")  // Wednesday
+               | ("T" | "t") ("H" | "h") ("U" | "u")  // Thursday
+               | ("F" | "f") ("R" | "r") ("I" | "i")  // Friday
+               | ("S" | "s") ("A" | "a") ("T" | "t")  // Saturday
+               | ("S" | "s") ("U" | "u") ("N" | "n")  // Sunday
+
+<const_date>     ::= <const_MMDDYYYY> | <const_YYYYMMDD>
+<const_MMDDYYYY> ::= <const_month> "-" <const_day> "-" <const_year>
+<const_YYYYMMDD> ::= <const_year> "-" <const_month> "-" <const_day>
+
+<const_year>  ::= <digit> <digit> <digit> <digit>
+<const_month> ::= "0" <digit1> | "1" ("0" | "1" | "2")
+<const_day>   ::= "0" <digit1> | "1" <digit> | "2" <digit> | "3" ("0" | "1")
+
+<digit1>         ::= "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+<digit1_pattern> ::= "*" | <digit1>
+<digit>          ::= "0" | <digit1>
+<digit_pattern>  ::= "*" | <digit>
