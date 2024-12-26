@@ -1,9 +1,9 @@
 from datetime import date, datetime, timedelta, tzinfo
 
-__all__ = ["DateParser"]
+__all__ = ["ExpressDateParser"]
 
 
-class DateParser:
+class ExpressDateParser:
     """
     A parser class for date expressions that supports 
     single dates, date ranges, and wildcard expressions.
