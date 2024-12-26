@@ -100,30 +100,6 @@ class Date:
         """
         return tuple(sorted(set(other) - set(self._date)))
 
-    def __xor__(self, other: Date | tuple[date, ...]) -> tuple[date, ...]:
-        """
-        Perform a symmetric difference (XOR) between this Date object 
-        and another Date object or tuple of dates.
-
-        :param other: Another Date object or a tuple of date objects.
-        :return: A tuple containing the symmetric difference of 
-                 the two sets of dates.
-        """
-        if isinstance(other, Date):
-            return tuple(sorted(set(self._date) ^ set(other._date)))
-        return tuple(sorted(set(self._date) ^ set(other)))
-
-    def __rxor__(self, other: tuple[date, ...]) -> tuple[date, ...]:
-        """
-        Reflective XOR, allows the other operand to be first 
-        in a symmetric difference operation.
-
-        :param other: Another tuple of dates.
-        :return: A tuple containing the symmetric difference of 
-                 the two sets of dates.
-        """
-        return tuple(sorted(set(other) ^ set(self._date)))
-
     def __eq__(self, other: object) -> bool:
         """
         Check if this Date object is equal to another object.
@@ -193,6 +169,30 @@ class Date:
         :return: A tuple of dates that are common to both.
         """
         return self.__and__(other)
+    
+    def __xor__(self, other: Date | tuple[date, ...]) -> tuple[date, ...]:
+        """
+        Perform a symmetric difference (XOR) between this Date object 
+        and another Date object or tuple of dates.
+
+        :param other: Another Date object or a tuple of date objects.
+        :return: A tuple containing the symmetric difference of 
+                 the two sets of dates.
+        """
+        if isinstance(other, Date):
+            return tuple(sorted(set(self._date) ^ set(other._date)))
+        return tuple(sorted(set(self._date) ^ set(other)))
+
+    def __rxor__(self, other: tuple[date, ...]) -> tuple[date, ...]:
+        """
+        Reflective XOR, allows the other operand to be first 
+        in a symmetric difference operation.
+
+        :param other: Another tuple of dates.
+        :return: A tuple containing the symmetric difference of 
+                 the two sets of dates.
+        """
+        return tuple(sorted(set(other) ^ set(self._date)))
 
     def __contains__(self, other: Date | date) -> bool:
         """
