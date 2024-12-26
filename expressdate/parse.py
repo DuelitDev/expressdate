@@ -1,5 +1,7 @@
 from datetime import date, datetime, timedelta, tzinfo
 
+__all__ = ["DateParser"]
+
 
 class DateParser:
     """
@@ -38,7 +40,7 @@ class DateParser:
         tilde_pos = expr.find("~")
         left = expr[:tilde_pos].strip()
         right = expr[tilde_pos + 1:].strip()
-        today = datetime.now(tz=tz).date()    # Use today's date if needed.
+        today = datetime.now(tz=tz).date()  # Use today's date if needed.
 
         # If the right side is empty, assume the range ends at 'today'.
         if right == "" and left:
@@ -48,7 +50,7 @@ class DateParser:
         # parse them and generate the full date range.
         elif left and right:
             return cls.parse_date_range(
-                cls.parse_const_date(left), 
+                cls.parse_const_date(left),
                 cls.parse_const_date(right)
             )
 
