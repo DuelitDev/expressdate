@@ -1,7 +1,7 @@
 from datetime import date, datetime, timedelta, tzinfo
 
 
-class Parser:
+class DateParser:
     @classmethod
     def parse(cls, expr: str, tz: tzinfo | None = None) -> tuple[date, ...]:
         # Parse a date or date range expression (expr).
