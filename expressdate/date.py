@@ -1,13 +1,13 @@
 from __future__ import annotations
 from datetime import date, timedelta
-from .parse import DateParser
+from .parse import ExpressDateParser
 
-__all__ = ["Date"]
+__all__ = ["ExpressDate"]
 
 
-class Date:
+class ExpressDate:
     """
-    A Date object that can be instantiated from a Python datetime.date 
+    A ExpressDate object that can be instantiated from a Python date 
     or a string expression. 
     It supports various arithmetic, set-like, and logical operations 
     for date manipulation and comparison.
@@ -15,7 +15,7 @@ class Date:
 
     def __init__(self, expr: date | str):
         """
-        Initialize the Date object.
+        Initialize the ExpressDate object.
 
         :param expr: A date object or a string representing a date or range.
         :raises TypeError: If expr is neither a date nor a string.
@@ -24,7 +24,7 @@ class Date:
             # Store the original expression
             self._expr = expr
             # Parse the string into one or more dates
-            self._date = DateParser.parse(expr)
+            self._date = ExpressDateParser.parse(expr)
         elif isinstance(expr, date):
             # Convert the date to a string in MM-DD-YYYY format
             self._expr = expr.strftime("%m-%d-%Y")
@@ -51,15 +51,15 @@ class Date:
 
     def __repr__(self) -> str:
         """
-        Return the official string representation of the Date object.
+        Return the official string representation of the ExpressDate object.
 
-        :return: A string in the form of Date('MM-DD-YYYY') or equivalent.
+        :return: A string in the form of ExpressDate('MM-DD-YYYY') or equivalent.
         """
-        return f"Date('{self._expr}')"
+        return f"ExpressDate('{self._expr}')"
 
     def __add__(self, other: timedelta | int) -> tuple[date, ...]:
         """
-        Add a timedelta or an integer number of days to each date in this Date.
+        Add a timedelta or an integer number of days to each date in this ExpressDate.
 
         :param other: A timedelta object or an integer (representing days).
         :return: A tuple of date objects after addition.
@@ -79,20 +79,20 @@ class Date:
         """
         return self.__add__(other)
 
-    def __sub__(self, other: Date | tuple[date, ...]) -> tuple[date, ...]:
+    def __sub__(self, other: ExpressDate | tuple[date, ...]) -> tuple[date, ...]:
         """
-        Subtract another Date object or a tuple of dates from this Date object.
+        Subtract another ExpressDate object or a tuple of dates from this ExpressDate object.
 
-        :param other: Another Date object or a tuple of date objects.
+        :param other: Another ExpressDate object or a tuple of date objects.
         :return: A tuple of date objects that are left after subtraction.
         """
-        if isinstance(other, Date):
+        if isinstance(other, ExpressDate):
             return tuple(sorted(set(self._date) - set(other.dates)))
         return tuple(sorted(set(self._date) - set(other)))
 
     def __rsub__(self, other: tuple[date, ...]) -> tuple[date, ...]:
         """
-        Reflective subtraction, subtracts this Date object 
+        Reflective subtraction, subtracts this ExpressDate object 
         from another tuple of dates.
 
         :param other: Another tuple of date objects.
@@ -102,38 +102,38 @@ class Date:
 
     def __eq__(self, other: object) -> bool:
         """
-        Check if this Date object is equal to another object.
+        Check if this ExpressDate object is equal to another object.
 
-        :param other: The object to compare against, can be Date, date, or str.
+        :param other: The object to compare against, can be ExpressDate, date, or str.
         :return: True if they are equal, False otherwise.
         """
-        if isinstance(other, Date):
+        if isinstance(other, ExpressDate):
             return hash(self) == hash(other)
         elif isinstance(other, date):
             return self._date == (other,)
         elif isinstance(other, str):
-            return hash(self) == hash(Date(other))
+            return hash(self) == hash(ExpressDate(other))
         return False
 
     def __ne__(self, other: object) -> bool:
         """
-        Check if this Date object is not equal to another object.
+        Check if this ExpressDate object is not equal to another object.
 
         :param other: The object to compare against.
         :return: True if they are not equal, False otherwise.
         """
         return not self.__eq__(other)
 
-    def __or__(self, other: Date | tuple[date, ...]) -> tuple[date, ...]:
+    def __or__(self, other: ExpressDate | tuple[date, ...]) -> tuple[date, ...]:
         """
-        Perform a union operation (OR) between this Date object and 
-        another Date object or tuple of dates.
+        Perform a union operation (OR) between this ExpressDate object and 
+        another ExpressDate object or tuple of dates.
 
-        :param other: Another Date object or a tuple of date objects.
+        :param other: Another ExpressDate object or a tuple of date objects.
         :return: A tuple of dates containing all unique dates from both.
         :raises TypeError: If other is an unsupported type.
         """
-        if isinstance(other, Date):
+        if isinstance(other, ExpressDate):
             return tuple(sorted(set(self._date) | set(other._date)))
         return tuple(sorted(set(self._date) | set(other)))
 
@@ -147,16 +147,16 @@ class Date:
         """
         return self.__or__(other)
 
-    def __and__(self, other: Date | tuple[date, ...]) -> tuple[date, ...]:
+    def __and__(self, other: ExpressDate | tuple[date, ...]) -> tuple[date, ...]:
         """
-        Perform an intersection (AND) between this Date object 
-        and another Date object or tuple of dates.
+        Perform an intersection (AND) between this ExpressDate object 
+        and another ExpressDate object or tuple of dates.
 
-        :param other: Another Date object or a tuple of date objects.
+        :param other: Another ExpressDate object or a tuple of date objects.
         :return: A tuple of dates that are common to both.
         :raises TypeError: If other is an unsupported type.
         """
-        if isinstance(other, Date):
+        if isinstance(other, ExpressDate):
             return tuple(sorted(set(self._date) & set(other._date)))
         return tuple(sorted(set(self._date) & set(other)))
 
@@ -170,16 +170,16 @@ class Date:
         """
         return self.__and__(other)
     
-    def __xor__(self, other: Date | tuple[date, ...]) -> tuple[date, ...]:
+    def __xor__(self, other: ExpressDate | tuple[date, ...]) -> tuple[date, ...]:
         """
-        Perform a symmetric difference (XOR) between this Date object 
-        and another Date object or tuple of dates.
+        Perform a symmetric difference (XOR) between this ExpressDate object 
+        and another ExpressDate object or tuple of dates.
 
-        :param other: Another Date object or a tuple of date objects.
+        :param other: Another ExpressDate object or a tuple of date objects.
         :return: A tuple containing the symmetric difference of 
                  the two sets of dates.
         """
-        if isinstance(other, Date):
+        if isinstance(other, ExpressDate):
             return tuple(sorted(set(self._date) ^ set(other._date)))
         return tuple(sorted(set(self._date) ^ set(other)))
 
@@ -192,59 +192,58 @@ class Date:
         :return: A tuple containing the symmetric difference of 
                  the two sets of dates.
         """
-        return tuple(sorted(set(other) ^ set(self._date)))
+        return self.__xor__(other)
 
-    def __contains__(self, other: Date | date) -> bool:
+    def __contains__(self, other: ExpressDate | date) -> bool:
         """
-        Check if a given date or a single-day Date object is 
-        contained within this Date object.
+        Check if a given date or a single-day ExpressDate object is 
+        contained within this ExpressDate object.
 
-        :param other: A Date (representing a single day) or 
-                      a datetime.date object.
+        :param other: A ExpressDate (representing a single day) or 
+                      a date object.
         :return: True if the date is found, False otherwise.
-        :raises ValueError: If the other Date object does not represent a single day.
-        :raises TypeError: If the other object is not of type Date or date.
+        :raises ValueError: If the other ExpressDate object does not represent a single day.
+        :raises TypeError: If the other object is not of type ExpressDate or date.
         """
-        if isinstance(other, Date):
+        if isinstance(other, ExpressDate):
             if not other.is_single_day:
-                raise ValueError("Date object must represent a single day.")
+                raise ValueError("ExpressDate object must represent a single day.")
             return other.dates[0] in self._date
         elif isinstance(other, date):
             return other in self._date
-        else:
-            raise TypeError("Invalid type.")
+        raise TypeError("Invalid type.")
 
-    def __matmul__(self, other: Date | date) -> Date:
+    def __matmul__(self, other: ExpressDate | date) -> ExpressDate:
         """
-        Use the @ operator to combine two single-day Date objects 
-        (or a Date and a date) into a new Date
+        Use the @ operator to combine two single-day ExpressDate objects 
+        (or a ExpressDate and a date) into a new ExpressDate
         that expresses a range as "MM-DD-YYYY ~ MM-DD-YYYY".
 
-        :param other: Another Date object (single day) or 
-                      a datetime.date object.
-        :return: A new Date object representing the combined string range.
-        :raises ValueError: If either Date object represents 
+        :param other: Another ExpressDate object (single day) or 
+                      a date object.
+        :return: A new ExpressDate object representing the combined string range.
+        :raises ValueError: If either ExpressDate object represents 
                             more than a single day.
         """
         if not self.is_single_day:
-            raise ValueError("Date object must represent a single day.")
-        if isinstance(other, Date):
+            raise ValueError("ExpressDate object must represent a single day.")
+        if isinstance(other, ExpressDate):
             if not other.is_single_day:
-                raise ValueError("Date object must represent a single day.")
+                raise ValueError("ExpressDate object must represent a single day.")
             other = other.first
         left = self._date[0].strftime("%m-%d-%Y")
         right = other.strftime("%m-%d-%Y")
-        return Date(f"{left} ~ {right}")
+        return ExpressDate(f"{left} ~ {right}")
 
-    def __rmatmul__(self, other: date) -> Date:
+    def __rmatmul__(self, other: date) -> ExpressDate:
         """
         Reflective matmul (@) operation to allow the other operand to 
         appear on the left.
 
-        :param other: Another datetime.date object.
-        :return: A new Date object that represents the combined string range.
+        :param other: Another date object.
+        :return: A new ExpressDate object that represents the combined string range.
         """
-        return Date(other).__matmul__(self)
+        return ExpressDate(other).__matmul__(self)
 
     @property
     def is_const(self) -> bool:
@@ -260,7 +259,7 @@ class Date:
     @property
     def is_single_day(self) -> bool:
         """
-        Check if this Date object represents only one day.
+        Check if this ExpressDate object represents only one day.
 
         :return: True if it contains exactly one date, False otherwise.
         """
