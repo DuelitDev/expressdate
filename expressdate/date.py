@@ -1,3 +1,4 @@
+from __future__ import annotations
 from datetime import date, timedelta
 from .parse import DateParser
 
@@ -78,36 +79,28 @@ class Date:
         """
         return self.__add__(other)
 
-    def __sub__(self, other: "Date" | tuple[date, ...]) -> tuple[date, ...]:
+    def __sub__(self, other: Date | tuple[date, ...]) -> tuple[date, ...]:
         """
         Subtract another Date object or a tuple of dates from this Date object.
 
         :param other: Another Date object or a tuple of date objects.
         :return: A tuple of date objects that are left after subtraction.
-        :raises TypeError: If other is neither a Date nor a tuple of dates.
         """
         if isinstance(other, Date):
             return tuple(sorted(set(self._date) - set(other.dates)))
-        elif isinstance(other, tuple):
-            return tuple(sorted(set(self._date) - set(other)))
-        raise TypeError("Invalid type.")
+        return tuple(sorted(set(self._date) - set(other)))
 
-    def __rsub__(self, other: "Date" | tuple[date, ...]) -> tuple[date, ...]:
+    def __rsub__(self, other: tuple[date, ...]) -> tuple[date, ...]:
         """
         Reflective subtraction, subtracts this Date object 
-        from another Date object or tuple of dates.
+        from another tuple of dates.
 
-        :param other: Another Date object or a tuple of date objects.
+        :param other: Another tuple of date objects.
         :return: A tuple of date objects that are left after subtraction.
-        :raises TypeError: If other is neither a Date nor a tuple of dates.
         """
-        if isinstance(other, Date):
-            return tuple(sorted(set(other.dates) - set(self._date)))
-        elif isinstance(other, tuple):
-            return tuple(sorted(set(other) - set(self._date)))
-        raise TypeError("Invalid type.")
+        return tuple(sorted(set(other) - set(self._date)))
 
-    def __xor__(self, other: "Date" | tuple[date, ...]) -> tuple[date, ...]:
+    def __xor__(self, other: Date | tuple[date, ...]) -> tuple[date, ...]:
         """
         Perform a symmetric difference (XOR) between this Date object 
         and another Date object or tuple of dates.
@@ -115,29 +108,21 @@ class Date:
         :param other: Another Date object or a tuple of date objects.
         :return: A tuple containing the symmetric difference of 
                  the two sets of dates.
-        :raises TypeError: If other is an unsupported type.
         """
         if isinstance(other, Date):
             return tuple(sorted(set(self._date) ^ set(other._date)))
-        elif isinstance(other, tuple):
-            return tuple(sorted(set(self._date) ^ set(other)))
-        raise TypeError("Invalid type.")
+        return tuple(sorted(set(self._date) ^ set(other)))
 
-    def __rxor__(self, other: "Date" | tuple[date, ...]) -> tuple[date, ...]:
+    def __rxor__(self, other: tuple[date, ...]) -> tuple[date, ...]:
         """
         Reflective XOR, allows the other operand to be first 
         in a symmetric difference operation.
 
-        :param other: Another Date object or a tuple of dates.
+        :param other: Another tuple of dates.
         :return: A tuple containing the symmetric difference of 
                  the two sets of dates.
-        :raises TypeError: If other is an unsupported type.
         """
-        if isinstance(other, Date):
-            return tuple(sorted(set(other.dates) ^ set(self._date)))
-        elif isinstance(other, tuple):
-            return tuple(sorted(set(other) ^ set(self._date)))
-        raise TypeError("Invalid type.")
+        return tuple(sorted(set(other) ^ set(self._date)))
 
     def __eq__(self, other: object) -> bool:
         """
@@ -163,7 +148,7 @@ class Date:
         """
         return not self.__eq__(other)
 
-    def __or__(self, other: "Date" | tuple[date, ...]) -> tuple[date, ...]:
+    def __or__(self, other: Date | tuple[date, ...]) -> tuple[date, ...]:
         """
         Perform a union operation (OR) between this Date object and 
         another Date object or tuple of dates.
@@ -174,21 +159,19 @@ class Date:
         """
         if isinstance(other, Date):
             return tuple(sorted(set(self._date) | set(other._date)))
-        elif isinstance(other, tuple):
-            return tuple(sorted(set(self._date) | set(other)))
-        raise TypeError("Invalid type.")
+        return tuple(sorted(set(self._date) | set(other)))
 
-    def __ror__(self, other: "Date" | tuple[date, ...]) -> tuple[date, ...]:
+    def __ror__(self, other: tuple[date, ...]) -> tuple[date, ...]:
         """
         Reflective OR operation, allows the other operand to be first 
         in a union operation.
 
-        :param other: Another Date object or a tuple of dates.
+        :param other: Another tuple of dates.
         :return: A tuple of dates containing all unique dates from both.
         """
         return self.__or__(other)
 
-    def __and__(self, other: "Date" | tuple[date, ...]) -> tuple[date, ...]:
+    def __and__(self, other: Date | tuple[date, ...]) -> tuple[date, ...]:
         """
         Perform an intersection (AND) between this Date object 
         and another Date object or tuple of dates.
@@ -199,26 +182,25 @@ class Date:
         """
         if isinstance(other, Date):
             return tuple(sorted(set(self._date) & set(other._date)))
-        elif isinstance(other, tuple):
-            return tuple(sorted(set(self._date) & set(other)))
-        raise TypeError("Invalid type.")
+        return tuple(sorted(set(self._date) & set(other)))
 
-    def __rand__(self, other: "Date" | tuple[date, ...]) -> tuple[date, ...]:
+    def __rand__(self, other: tuple[date, ...]) -> tuple[date, ...]:
         """
         Reflective AND operation, allows the other operand to be first 
         in an intersection operation.
 
-        :param other: Another Date object or a tuple of dates.
+        :param other: Another tuple of dates.
         :return: A tuple of dates that are common to both.
         """
         return self.__and__(other)
 
-    def __contains__(self, other: "Date" | date) -> bool:
+    def __contains__(self, other: Date | date) -> bool:
         """
         Check if a given date or a single-day Date object is 
         contained within this Date object.
 
-        :param other: A Date (representing a single day) or a date object.
+        :param other: A Date (representing a single day) or 
+                      a datetime.date object.
         :return: True if the date is found, False otherwise.
         :raises ValueError: If the other Date object does not represent a single day.
         :raises TypeError: If the other object is not of type Date or date.
@@ -232,13 +214,14 @@ class Date:
         else:
             raise TypeError("Invalid type.")
 
-    def __matmul__(self, other: "Date" | date) -> "Date":
+    def __matmul__(self, other: Date | date) -> Date:
         """
         Use the @ operator to combine two single-day Date objects 
         (or a Date and a date) into a new Date
         that expresses a range as "MM-DD-YYYY ~ MM-DD-YYYY".
 
-        :param other: Another Date object (single day) or a date object.
+        :param other: Another Date object (single day) or 
+                      a datetime.date object.
         :return: A new Date object representing the combined string range.
         :raises ValueError: If either Date object represents 
                             more than a single day.
@@ -253,17 +236,15 @@ class Date:
         right = other.strftime("%m-%d-%Y")
         return Date(f"{left} ~ {right}")
 
-    def __rmatmul__(self, other: "Date" | date) -> "Date":
+    def __rmatmul__(self, other: date) -> Date:
         """
         Reflective matmul (@) operation to allow the other operand to 
         appear on the left.
 
-        :param other: Another Date object or a date object.
+        :param other: Another datetime.date object.
         :return: A new Date object that represents the combined string range.
         """
-        if isinstance(other, date):
-            other = Date(other)
-        return other.__matmul__(self)
+        return Date(other).__matmul__(self)
 
     @property
     def is_const(self) -> bool:
