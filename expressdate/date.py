@@ -4,15 +4,17 @@ from .parse import DateParser
 
 class Date:
     """
-    A Date object that can be instantiated from a Python datetime.date or a string expression.
-    It supports various arithmetic, set-like, and logical operations for date manipulation and comparison.
+    A Date object that can be instantiated from a Python datetime.date 
+    or a string expression. 
+    It supports various arithmetic, set-like, and logical operations 
+    for date manipulation and comparison.
     """
 
     def __init__(self, expr: date | str):
         """
         Initialize the Date object.
 
-        :param expr: A date object or a string representing a date or date range.
+        :param expr: A date object or a string representing a date or range.
         :raises TypeError: If expr is neither a date nor a string.
         """
         if isinstance(expr, str):
@@ -54,7 +56,7 @@ class Date:
 
     def __add__(self, other: timedelta | int) -> tuple[date, ...]:
         """
-        Add a timedelta or an integer number of days to each date in this Date object.
+        Add a timedelta or an integer number of days to each date in this Date.
 
         :param other: A timedelta object or an integer (representing days).
         :return: A tuple of date objects after addition.
@@ -90,7 +92,8 @@ class Date:
 
     def __rsub__(self, other: "Date" | tuple[date, ...]) -> tuple[date, ...]:
         """
-        Reflective subtraction, subtracts this Date object from another Date object or tuple of dates.
+        Reflective subtraction, subtracts this Date object 
+        from another Date object or tuple of dates.
 
         :param other: Another Date object or a tuple of date objects.
         :return: A tuple of date objects that are left after subtraction.
@@ -104,10 +107,12 @@ class Date:
 
     def __xor__(self, other: "Date" | tuple[date, ...]) -> tuple[date, ...]:
         """
-        Perform a symmetric difference (XOR) between this Date object and another Date object or tuple of dates.
+        Perform a symmetric difference (XOR) between this Date object 
+        and another Date object or tuple of dates.
 
         :param other: Another Date object or a tuple of date objects.
-        :return: A tuple containing the symmetric difference of the two sets of dates.
+        :return: A tuple containing the symmetric difference of 
+                 the two sets of dates.
         :raises TypeError: If other is an unsupported type.
         """
         if isinstance(other, Date):
@@ -118,10 +123,12 @@ class Date:
 
     def __rxor__(self, other: "Date" | tuple[date, ...]) -> tuple[date, ...]:
         """
-        Reflective XOR, allows the other operand to be first in a symmetric difference operation.
+        Reflective XOR, allows the other operand to be first 
+        in a symmetric difference operation.
 
         :param other: Another Date object or a tuple of dates.
-        :return: A tuple containing the symmetric difference of the two sets of dates.
+        :return: A tuple containing the symmetric difference of 
+                 the two sets of dates.
         :raises TypeError: If other is an unsupported type.
         """
         if isinstance(other, Date):
@@ -156,7 +163,8 @@ class Date:
 
     def __or__(self, other: "Date" | tuple[date, ...]) -> tuple[date, ...]:
         """
-        Perform a union operation (OR) between this Date object and another Date object or tuple of dates.
+        Perform a union operation (OR) between this Date object and 
+        another Date object or tuple of dates.
 
         :param other: Another Date object or a tuple of date objects.
         :return: A tuple of dates containing all unique dates from both.
@@ -170,7 +178,8 @@ class Date:
 
     def __ror__(self, other: "Date" | tuple[date, ...]) -> tuple[date, ...]:
         """
-        Reflective OR operation, allows the other operand to be first in a union operation.
+        Reflective OR operation, allows the other operand to be first 
+        in a union operation.
 
         :param other: Another Date object or a tuple of dates.
         :return: A tuple of dates containing all unique dates from both.
@@ -179,7 +188,8 @@ class Date:
 
     def __and__(self, other: "Date" | tuple[date, ...]) -> tuple[date, ...]:
         """
-        Perform an intersection (AND) between this Date object and another Date object or tuple of dates.
+        Perform an intersection (AND) between this Date object 
+        and another Date object or tuple of dates.
 
         :param other: Another Date object or a tuple of date objects.
         :return: A tuple of dates that are common to both.
@@ -193,7 +203,8 @@ class Date:
 
     def __rand__(self, other: "Date" | tuple[date, ...]) -> tuple[date, ...]:
         """
-        Reflective AND operation, allows the other operand to be first in an intersection operation.
+        Reflective AND operation, allows the other operand to be first 
+        in an intersection operation.
 
         :param other: Another Date object or a tuple of dates.
         :return: A tuple of dates that are common to both.
@@ -202,7 +213,8 @@ class Date:
 
     def __contains__(self, other: "Date" | date) -> bool:
         """
-        Check if a given date or a single-day Date object is contained within this Date object.
+        Check if a given date or a single-day Date object is 
+        contained within this Date object.
 
         :param other: A Date (representing a single day) or a date object.
         :return: True if the date is found, False otherwise.
@@ -220,12 +232,14 @@ class Date:
 
     def __matmul__(self, other: "Date" | date) -> "Date":
         """
-        Use the @ operator to combine two single-day Date objects (or a Date and a date) into a new Date
+        Use the @ operator to combine two single-day Date objects 
+        (or a Date and a date) into a new Date
         that expresses a range as "MM-DD-YYYY ~ MM-DD-YYYY".
 
         :param other: Another Date object (single day) or a date object.
         :return: A new Date object representing the combined string range.
-        :raises ValueError: If either Date object represents more than a single day.
+        :raises ValueError: If either Date object represents 
+                            more than a single day.
         """
         if not self.is_single_day:
             raise ValueError("Date object must represent a single day.")
@@ -239,7 +253,8 @@ class Date:
 
     def __rmatmul__(self, other: "Date" | date) -> "Date":
         """
-        Reflective matmul (@) operation to allow the other operand to appear on the left.
+        Reflective matmul (@) operation to allow the other operand to 
+        appear on the left.
 
         :param other: Another Date object or a date object.
         :return: A new Date object that represents the combined string range.
@@ -251,9 +266,11 @@ class Date:
     @property
     def is_const(self) -> bool:
         """
-        Check if the internal date expression contains no wildcards or range characters.
+        Check if the internal date expression contains 
+        no wildcards or range characters.
 
-        :return: True if the expression is constant (no '*' or '~'), False otherwise.
+        :return: True if the expression is constant (no '*' or '~'), 
+                 False otherwise.
         """
         return "*" not in self._expr and "~" not in self._expr
 
@@ -269,9 +286,11 @@ class Date:
     @property
     def is_continuous(self) -> bool:
         """
-        Check if the dates within this object form a continuous sequence without gaps.
+        Check if the dates within this object form 
+        a continuous sequence without gaps.
 
-        :return: True if consecutive days form a continuous range, False otherwise.
+        :return: True if consecutive days form a continuous range, 
+                 False otherwise.
         """
         for i in range(len(self._date) - 1):
             if self._date[i] + timedelta(days=1) != self._date[i + 1]:
