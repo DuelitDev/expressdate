@@ -1,5 +1,3 @@
-from turtledemo.forest import doit2
-
 import pytest
 from datetime import date, timedelta
 from expressdate.date import ExpressDate
@@ -73,6 +71,28 @@ def test_add():
         date(2024, 8, 18),
         date(2024, 8, 19)
     )
+    
+    
+def test_len():
+    assert len(ExpressDate("2024-08-1*")) == 10
+    assert len(ExpressDate("2024-**-**")) == 366
+
+
+def test_iter():
+    temp = (
+        date(2024, 8, 10),
+        date(2024, 8, 11),
+        date(2024, 8, 12),
+        date(2024, 8, 13),
+        date(2024, 8, 14),
+        date(2024, 8, 15),
+        date(2024, 8, 16),
+        date(2024, 8, 17),
+        date(2024, 8, 18),
+        date(2024, 8, 19)
+    )
+    for d, t in zip(ExpressDate("2024-08-1*"), temp):
+        assert d == t
 
 
 def test_radd():
