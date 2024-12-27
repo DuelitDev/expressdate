@@ -1,5 +1,6 @@
 from __future__ import annotations
 from datetime import date, timedelta
+from typing import Iterator
 from .parse import ExpressDateParser
 
 __all__ = ["ExpressDate"]
@@ -65,6 +66,22 @@ class ExpressDate:
                  or an equivalent expression.
         """
         return f"ExpressDate('{self._expr}')"
+    
+    def __len__(self) -> int:
+        """
+        Provides the total number of date objects stored in this instance.
+
+        :return: An integer representing how many distinct dates are stored.
+        """
+        return len(self._date)
+    
+    def __iter__(self) -> Iterator[date]:
+        """
+        Returns an iterator over the internal tuple of date objects.
+    
+        :return: An iterator over the date objects stored in this instance.
+        """
+        return iter(self._date)
 
     def __add__(self, other: timedelta | int) -> tuple[date, ...]:
         """
@@ -315,7 +332,7 @@ class ExpressDate:
 
         :return: An integer representing how many distinct dates are stored.
         """
-        return len(self._date)
+        return len(self)
 
     @property
     def dates(self) -> tuple[date, ...]:
