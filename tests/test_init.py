@@ -1,6 +1,6 @@
 import pytest
 from datetime import date
-from expressdate import express
+from expressdate import express, expr
 
 
 def test_express():
@@ -34,3 +34,36 @@ def test_express():
         express("2024-08-10 ~ 2024-08-12 ~ 2024-08-14")
     with pytest.raises(ValueError):
         express("2024-08-1* ~ 2024-08-2*")
+
+
+def test_expr():
+    d = expr("2024-08-15")
+    assert d.first == date(2024, 8, 15)
+    d = expr("2024-08-10 ~ 2024-08-15")
+    assert d.dates == (
+        date(2024, 8, 10),
+        date(2024, 8, 11),
+        date(2024, 8, 12),
+        date(2024, 8, 13),
+        date(2024, 8, 14),
+        date(2024, 8, 15)
+    )
+    d = expr("2024-08-1*")
+    assert d.dates == (
+        date(2024, 8, 10),
+        date(2024, 8, 11),
+        date(2024, 8, 12),
+        date(2024, 8, 13),
+        date(2024, 8, 14),
+        date(2024, 8, 15),
+        date(2024, 8, 16),
+        date(2024, 8, 17),
+        date(2024, 8, 18),
+        date(2024, 8, 19)
+    )
+    with pytest.raises(ValueError):
+        expr("2024-08-15 ~ 2024-08-10")
+    with pytest.raises(ValueError):
+        expr("2024-08-10 ~ 2024-08-12 ~ 2024-08-14")
+    with pytest.raises(ValueError):
+        expr("2024-08-1* ~ 2024-08-2*")
