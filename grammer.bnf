@@ -3,9 +3,9 @@
 <date_range> ::= <const_date> "~" <const_date>
                | <const_date> "~"
 
-<expr_date> ::= <expr_MMDDYYYY> | <expr_YYYYMMDD> | <relative>
+<expr_date> ::= <expr_MMDDYYYY> | <expr_YYYYMMDD>  // | <relative>
 
-<relative>        ::= <relative_string> | <relative_digit>
+<relative>        ::= <relative_string>  | <relative_digit>
 <relative_string> ::= "today" | "yesterday" | "tommorow"
 <relative_digit>  ::= ("+" | "-") <digit>
 
