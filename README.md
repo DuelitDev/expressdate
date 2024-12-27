@@ -17,6 +17,29 @@ pip install -U expressdate
 ---
 # Getting Started
 ```python
+import expressdate
+
+
+date = expressdate.expr("2024-08-15")
+print(date.first)          # 2024-08-15
+print(date.is_single_day)  # True
+
+date = expressdate.expr("2024-08-10 ~ 2024-08-15")
+print(date.dates)          # 2024-08-10 ~ 2024-08-15
+print(date.is_single_day)  # False
+
+date = expressdate.expr("2024-08-1*")
+print(date.dates)          # 2024-08-10 ~ 2024-08-19
+print(date.is_continuous)  # True
+
+date = expressdate.expr("2024-08-2*, Tue")
+print(date.dates)          # 2024-08-20, 2024-08-27
+print(date.is_continuous)  # False
+
+# don't do this. It takes very long time.
+# This creates 3,652,059 `datetime.date` objects.
+date = expressdate.expr("****-**-**")
+print(date.dates)  # 0001-01-01 ~ 9999-12-31
 ```
 
 ---
