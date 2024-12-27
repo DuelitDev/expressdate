@@ -2,10 +2,6 @@
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.poetry.packages]
-include = ["expressdate*"]
-exclude = ["tests*"]
-
 [tool.poetry]
 name = "expressdate"
 version = "0.0.1"
@@ -13,9 +9,14 @@ description = "Express-fast and flexible to express dates."
 authors = ["DuelitDev <jyoon07dev@gmail.com>"]
 readme = "README.md"
 license = "MIT"
+packages = [
+    { include = "expressdate" },
+]
 repository = "https://github.com/DuelitDev/expressdate"
-keywords = ["date", "datetime", "util", "utility",
-            "utilities", "dateutil", "expressdate"]
+keywords = [
+    "date", "datetime", "util", "utility",
+    "utilities", "dateutil", "expressdate"
+]
 classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
