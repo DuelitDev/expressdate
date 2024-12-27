@@ -44,14 +44,14 @@ class ExpressDateParser:
 
         # If the right side is empty, assume the range ends at 'today'.
         if right == "" and left:
-            return cls.parse_date_range(cls.parse_const_date(left), today)
+            return cls.parse_date_range(cls.parse_var_date(left), today)
 
         # If both sides are specified, 
         # parse them and generate the full date range.
         elif left and right:
             return cls.parse_date_range(
-                cls.parse_const_date(left),
-                cls.parse_const_date(right)
+                cls.parse_var_date(left),
+                cls.parse_var_date(right)
             )
 
         # Raise an error if the expression is invalid 
@@ -101,7 +101,7 @@ class ExpressDateParser:
             return cls.parse_expr_date(expr)
 
         # Otherwise, parse it as a constant (exact) date.
-        return (cls.parse_const_date(expr),)
+        return (cls.parse_var_date(expr),)
 
     @classmethod
     def parse_expr_date(cls, expr: str) -> tuple[date, ...]:
@@ -227,6 +227,48 @@ class ExpressDateParser:
 
         # Return the expanded dates if no weekday filtering is required.
         return tuple(dates)
+    
+    @classmethod
+    def parse_var_date(cls, expr: str, tz: tzinfo | None = None) -> date:
+        """
+        Parse relative date expressions such as 'today', 'yesterday',
+        'tomorrow', or offsets like '+3' (3 days from today) or '-5' 
+        (5 days before today). If the expression does not match these 
+        patterns, it will fall back to parsing a constant (exact) date.
+    
+        :param expr: A string representing a relative date expression.
+        :param tz: An optional timezone object 
+                   used to determine the current date.
+        :return: A date object representing the parsed relative or 
+                 constant date.
+        :raises ValueError: If the expression is invalid or cannot be parsed.
+        """
+        now = datetime.now(tz=tz).date()
+    
+        # Check for 'today' and return the current date.
+        if expr == "today":
+            return now
+    
+        # Check for 'yesterday' and return the date for one day before.
+        elif expr == "yesterday":
+            return now - timedelta(days=1)
+    
+        # Check for 'tomorrow' and return the date for one day after.
+        elif expr == "tomorrow":
+            return now + timedelta(days=1)
+    
+        # Handle expressions starting with '+' for future offsets.
+        elif expr.startswith("+"):
+            num = int(expr[1:].strip())  # Extract the positive offset value.
+            return now + timedelta(days=num)
+    
+        # Handle expressions starting with '-' for past offsets.
+        elif expr.startswith("-"):
+            num = int(expr[1:].strip())  # Extract the negative offset value.
+            return now - timedelta(days=num)
+    
+        # Fall back to parsing the expression as an exact date.
+        return cls.parse_const_date(expr)
 
     @classmethod
     def parse_const_date(cls, expr: str) -> date:

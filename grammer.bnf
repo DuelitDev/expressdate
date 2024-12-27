@@ -1,13 +1,9 @@
 <input> ::= <date_range> | <expr_date>
 
-<date_range> ::= <const_date> "~" <const_date>
-               | <const_date> "~"
+<date_range> ::= <var_date> "~" <var_date>
+               | <var_date> "~"
 
-<expr_date> ::= <expr_MMDDYYYY> | <expr_YYYYMMDD>  // | <relative>
-
-<relative>        ::= <relative_string>  | <relative_digit>
-<relative_string> ::= "today" | "yesterday" | "tommorow"
-<relative_digit>  ::= ("+" | "-") <digit>
+<expr_date> ::= <expr_MMDDYYYY> | <expr_YYYYMMDD> | <relative>
 
 <expr_MMDDYYYY> ::= <expr_month> "-" <expr_day> "-" <expr_year>
                   | <expr_month> "-" <expr_day> "-" <expr_year> "," <expr_week>
@@ -30,6 +26,12 @@
                | ("F" | "f") ("R" | "r") ("I" | "i")  // Friday
                | ("S" | "s") ("A" | "a") ("T" | "t")  // Saturday
                | ("S" | "s") ("U" | "u") ("N" | "n")  // Sunday
+
+<var_date> ::= <const_date> | <relative>
+
+<relative>        ::= <relative_string> | <relative_digit>
+<relative_string> ::= "today" | "yesterday" | "tommorow"
+<relative_digit>  ::= ("+" | "-") <digit>
 
 <const_date>     ::= <const_MMDDYYYY> | <const_YYYYMMDD>
 <const_MMDDYYYY> ::= <const_month> "-" <const_day> "-" <const_year>
