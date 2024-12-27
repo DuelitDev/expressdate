@@ -12,7 +12,8 @@ pip install -U expressdate
 ```
 
 # Key Features
-- TODO
+- Intuitive Date and Range Expressions
+- Relative Date Handling and Flexible Conversion
 
 ---
 # Getting Started
