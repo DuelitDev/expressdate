@@ -27,7 +27,6 @@ def test_init():
     with pytest.raises(TypeError):
         # noinspection PyTypeChecker
         ExpressDate(20240815)  # pyright: ignore [reportArgumentType]
-    
 
 
 def test_hash():
