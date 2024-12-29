@@ -2,7 +2,7 @@
 
 ![](https://github.com/DuelitDev/expressdate/actions/workflows/ci.yml/badge.svg)
 [![codecov](https://codecov.io/github/DuelitDev/expressdate/graph/badge.svg?token=794OKQP8KS)](https://codecov.io/github/DuelitDev/expressdate)
-[![PyPI - Downloads](https://img.shields.io/pypi/dm/expressdate)](https://pypistats.org/packages/expressdate/)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/expressdate)](https://pypistats.org/packages/expressdate)
 
 ---
 
